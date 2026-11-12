@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -16,34 +17,36 @@ export function App() {
   const [isCvModalOpen, setIsCvModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 font-sans selection:bg-blue-100 selection:text-blue-900 flex flex-col">
-      {/* Top Sticky Navigation */}
-      <Navbar onOpenCvModal={() => setIsCvModalOpen(true)} />
+    <ThemeProvider>
+      <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0B0F19] text-slate-800 dark:text-slate-100 font-sans selection:bg-blue-100 selection:text-blue-900 dark:selection:bg-blue-900 dark:selection:text-blue-200 flex flex-col transition-colors duration-300">
+        {/* Top Sticky Navigation */}
+        <Navbar onOpenCvModal={() => setIsCvModalOpen(true)} />
 
-      {/* Main Content Sections */}
-      <main className="flex-1">
-        <Hero onOpenCvModal={() => setIsCvModalOpen(true)} />
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Education />
-        <Certifications />
-        <Contact />
-      </main>
+        {/* Main Content Sections */}
+        <main className="flex-1">
+          <Hero onOpenCvModal={() => setIsCvModalOpen(true)} />
+          <About />
+          <Skills />
+          <Experience />
+          <Projects />
+          <Education />
+          <Certifications />
+          <Contact />
+        </main>
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
 
-      {/* Back to Top floating button */}
-      <BackToTop />
+        {/* Back to Top floating button */}
+        <BackToTop />
 
-      {/* Curriculum Vitae Modal */}
-      <CvModal
-        isOpen={isCvModalOpen}
-        onClose={() => setIsCvModalOpen(false)}
-      />
-    </div>
+        {/* Curriculum Vitae Modal */}
+        <CvModal
+          isOpen={isCvModalOpen}
+          onClose={() => setIsCvModalOpen(false)}
+        />
+      </div>
+    </ThemeProvider>
   );
 }
 

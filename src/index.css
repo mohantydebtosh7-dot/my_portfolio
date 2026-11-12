@@ -11,9 +11,19 @@
     background-color: #f8fafc;
   }
 
+  html.dark {
+    color: #f1f5f9;
+    background-color: #0b0f19;
+  }
+
   ::selection {
     background-color: #dbeafe;
     color: #1e3a8a;
+  }
+
+  .dark ::selection {
+    background-color: #1e3a8a;
+    color: #93c5fd;
   }
 }
 
@@ -26,16 +36,28 @@
   background: #f1f5f9;
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
-/* Subtle background grid pattern for high-end feel */
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Subtle background grid pattern */
 .bg-subtle-grid {
   background-size: 32px 32px;
   background-image: 
@@ -43,9 +65,19 @@
     linear-gradient(to bottom, rgba(226, 232, 240, 0.45) 1px, transparent 1px);
 }
 
+.dark .bg-subtle-grid {
+  background-image: 
+    linear-gradient(to right, rgba(51, 65, 85, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(51, 65, 85, 0.25) 1px, transparent 1px);
+}
+
 .bg-dot-pattern {
   background-image: radial-gradient(rgba(148, 163, 184, 0.25) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+.dark .bg-dot-pattern {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px);
 }
 
 /* Glassmorphism helpers */
@@ -55,8 +87,8 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+.dark .glass-nav {
+  background: rgba(11, 15, 25, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }

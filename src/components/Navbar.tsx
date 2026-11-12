@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, FileText, ArrowUpRight } from 'lucide-react';
+import { Menu, X, FileText, ArrowUpRight, Sun, Moon } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { useTheme } from '../context/ThemeContext';
 
 interface NavbarProps {
   onOpenCvModal: () => void;
@@ -10,6 +11,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
   const [activeSection, setActiveSection] = useState('hero');
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   const navLinks = [
     { label: 'Home', href: '#hero' },
@@ -60,7 +62,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/98 backdrop-blur-lg shadow-sm border-b border-slate-200 py-3'
+          ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-lg shadow-sm border-b border-slate-200 dark:border-slate-800 py-3'
           : 'bg-transparent py-5'
       }`}
     >
@@ -72,14 +74,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
             onClick={(e) => handleNavClick(e, '#hero')}
             className="flex items-center gap-3 group focus:outline-none"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-900 to-blue-600 flex items-center justify-center text-white font-bold text-base shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-900 to-blue-600 dark:from-blue-700 dark:to-sky-500 flex items-center justify-center text-white font-bold text-base shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200">
               {PERSONAL_INFO.initials}
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-slate-900 text-base tracking-tight group-hover:text-blue-700 transition-colors">
+              <span className="font-bold text-slate-900 dark:text-white text-base tracking-tight group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
                 {PERSONAL_INFO.name}
               </span>
-              <span className="text-[11px] font-medium text-slate-700 tracking-wider uppercase">
+              <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 tracking-wider uppercase">
                 Portfolio
               </span>
             </div>
@@ -96,51 +98,72 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={`relative px-3 py-1.5 text-sm font-medium transition-colors rounded-lg ${
                     isActive
-                      ? 'text-blue-700 font-semibold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
+                      ? 'text-blue-700 dark:text-blue-400 font-semibold'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/60 dark:hover:bg-slate-800/60'
                   }`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-blue-600 rounded-full" />
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-blue-600 dark:bg-blue-400 rounded-full" />
                   )}
                 </a>
               );
             })}
           </nav>
 
-          {/* Action Buttons */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Action Buttons & Theme Toggle */}
+          <div className="hidden sm:flex items-center gap-2.5">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs hover:border-blue-300 dark:hover:border-slate-700 transition-all duration-200"
+            >
+              {isDark ? (
+                <Sun className="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform" />
+              ) : (
+                <Moon className="w-4 h-4 text-slate-600 hover:-rotate-12 transition-transform" />
+              )}
+            </button>
+
             <button
               onClick={onOpenCvModal}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-blue-700 bg-white hover:bg-blue-50/70 border border-slate-200 rounded-lg shadow-sm transition-all duration-200"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-blue-700 dark:hover:text-blue-400 bg-white dark:bg-slate-900 hover:bg-blue-50/70 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm transition-all duration-200"
             >
-              <FileText className="w-3.5 h-3.5 text-blue-600" />
+              <FileText className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
               <span>Resume</span>
             </button>
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-blue-700 rounded-lg shadow-sm hover:shadow transition-all duration-200"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-slate-900 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 rounded-lg shadow-sm hover:shadow transition-all duration-200"
             >
               <span>Get In Touch</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu & Theme Toggle */}
           <div className="flex sm:hidden items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle dark mode"
+              className="p-2 text-slate-600 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
+            >
+              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
+            </button>
             <button
               onClick={onOpenCvModal}
               aria-label="View Resume"
-              className="p-2 text-slate-600 hover:text-blue-700 rounded-lg border border-slate-200 bg-white"
+              className="p-2 text-slate-600 dark:text-slate-300 hover:text-blue-700 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
             >
-              <FileText className="w-4 h-4 text-blue-600" />
+              <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle navigation menu"
-              className="p-2 rounded-lg text-slate-700 hover:text-blue-700 hover:bg-slate-100 border border-slate-200 transition-colors"
+              className="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:text-blue-700 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-colors"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -150,7 +173,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-xl px-4 pt-3 pb-6 mt-2 animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="lg:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-xl px-4 pt-3 pb-6 mt-2 animate-in fade-in slide-in-from-top-4 duration-200">
           <div className="flex flex-col space-y-1">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
@@ -161,29 +184,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-blue-50 text-blue-700 font-semibold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                      ? 'bg-blue-50 dark:bg-slate-900 text-blue-700 dark:text-blue-400 font-semibold'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900'
                   }`}
                 >
                   {link.label}
                 </a>
               );
             })}
-            <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenCvModal();
                 }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-lg transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 hover:bg-blue-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-lg transition-colors"
               >
-                <FileText className="w-4 h-4 text-blue-600" />
+                <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 View & Download CV
               </button>
               <a
                 href="#contact"
                 onClick={(e) => handleNavClick(e, '#contact')}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-slate-900 hover:bg-blue-700 rounded-lg shadow-sm transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-slate-900 dark:bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors"
               >
                 Contact Me
               </a>
